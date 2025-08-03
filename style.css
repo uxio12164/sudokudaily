@@ -1,0 +1,527 @@
+body {
+  font-family: "Rethink Sans", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #fefefe;
+  margin: 0;
+  padding: 1em;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  width: 600px;
+  margin-bottom: 10px;
+}
+
+h1 {
+  font-family: "Rethink Sans", sans-serif;
+  font-weight: bold;
+  font-size: 2em;
+}
+
+.date {
+  font-size: 1em;
+  margin-top: 10px;
+  font-family: "Rethink Sans", sans-serif;
+  color: var(--warmgray);
+}
+
+/* colors */
+:root {
+  --black:#161616;
+  --darkgrey: #252525;
+  --specialblack: #081C15;
+  --warmgray: #1B4332;
+  --pinetreegreen: #2D6A4F;
+  --oceangreen: #40916C;
+  --brightparrotgreen: #52B788;
+  --malachite: #74C69D;
+  --peagreen: #95D5B2;
+  --cobaltgreen: #B7E4C7;
+  --palecobaltgreen: #D8F3DC;
+  --white: #fff;
+}
+
+/* dark mode */
+body.dark-mode {
+  background-color: #161616;; /* dark grey */
+  color: #fff;
+}
+
+body.dark-mode .sudoku-grid {
+  background-color: #161616;;
+}
+
+body.dark-mode .cell {
+  background-color: #1B4332;
+  color: #fff;
+  border-color: #444;
+}
+
+body.dark-mode .prefilled {
+  background-color: #081C15;
+  color: #fff;
+}
+
+body.dark-mode .selected {
+  background-color: #1B4332 !important; 
+  color: #fff !important;
+  border: 2px solid #fff;
+}
+
+body.dark-mode .cell:hover:not(.selected) {
+  background-color: #1B4332 !important; /* dark green-grey on hover */
+  color: #fff !important;
+}
+
+
+body.dark-mode .highlight {
+  background-color:  #081c15ec;
+}
+
+body.dark-mode .incorrect {
+  color: #ff6b6b;
+}
+
+body.dark-mode .btn-outline-dark {
+  background-color: #343a40;
+  color: #fff;
+  border-color: #fff;
+}
+
+body.dark-mode #pause-overlay {
+  background-color: #23272f;
+}
+
+body.dark-mode .timer {
+  color: #fff;
+}
+
+body.dark-mode .numpad button {
+  background-color: #081C15 !important;
+  color: #fff !important;
+  border: 2px solid #40916C;
+}
+
+body.dark-mode .numpad button:hover {
+  background-color: #1B4332 !important;
+  color: #fff !important;
+  border: 2px solid #52B788;
+}
+
+
+/* difficulty buttons */
+
+.difficulty {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  font-family: "Rethink Sans", sans-serif;
+  font-weight: bold;
+}
+
+.difficulty button {
+  padding: 6px 12px;
+  font-size: 16px;
+  cursor: pointer;
+  font-family: "Rethink Sans", sans-serif;
+}
+
+.difficultyBtn {
+  background-color: var(--palecobaltgreen);
+  color: var(--warmgray);
+  border: none;
+  transition: background 0.2s;
+  border-radius: 10px;
+  margin:10px;
+  padding: 10px;
+}
+.difficultyBtn:hover {
+  background-color: var(--warmgray);
+  color: var(--palecobaltgreen);
+}
+
+.controlBtn {
+  background-color: var(--palecobaltgreen)!important;
+  color: var(--specialblack)!important;
+  border: none;
+  transition: background 0.2s;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.controlBtn:hover {
+  color: var(--palecobaltgreen)!important;
+  background-color: var(--specialblack)!important;
+}
+
+.controlBtn2 {
+  background-color: var(--palecobaltgreen);
+  color: var(--warmgray);
+  border: none;
+  transition: background 0.2s;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.controlBtn2:hover {
+  color: var(--palecobaltgreen)!important;
+  background-color: var(--specialblack)!important;
+}
+
+/* mistakes&restart button */
+.game-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 600px;
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+
+
+/* sudoku */
+
+.sudoku-container {
+  position: relative;
+  width: fit-content;
+  margin: auto;
+}
+
+
+/* space around 3x3 grid */
+.sudoku-grid {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  grid-template-rows: repeat(3, auto);
+  gap: 9px; /* space between 3x3 boxes */
+  background: transparent;
+}
+
+
+/* 
+.sudoku-grid {
+  display: grid;
+    grid-template-columns: repeat(9, 60px);
+  grid-template-rows: repeat(9, 60px);
+  gap: 6px;
+} 
+  */
+
+.sudoku-box {
+  display: grid;
+  grid-template-columns: repeat(3, 60px);
+  grid-template-rows: repeat(3, 60px);
+  gap: 0;
+  background: #fff;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.10), 0 1.5px 4px rgba(0,0,0,0.08);
+  border-radius: 15px; /* optional, for rounded corners */
+}
+
+
+
+.sudoku-box .cell:nth-child(1),
+.sudoku-box .cell:nth-child(2),
+.sudoku-box .cell:nth-child(3) {
+  border-top: none;
+}
+.sudoku-box .cell:nth-child(1),
+.sudoku-box .cell:nth-child(4),
+.sudoku-box .cell:nth-child(7) {
+  border-left: none;
+}
+.sudoku-box .cell:nth-child(3),
+.sudoku-box .cell:nth-child(6),
+.sudoku-box .cell:nth-child(9) {
+  border-right: none;
+}
+.sudoku-box .cell:nth-child(7),
+.sudoku-box .cell:nth-child(8),
+.sudoku-box .cell:nth-child(9) {
+  border-bottom: none;
+}
+
+/* Top-left cell */
+.sudoku-box .cell:nth-child(1) {
+  border-top-left-radius: 15px;
+}
+
+/* Top-right cell */
+.sudoku-box .cell:nth-child(3) {
+  border-top-right-radius: 15px;
+}
+/* Bottom-left cell */
+.sudoku-box .cell:nth-child(7) {
+  border-bottom-left-radius: 15px;
+}
+/* Bottom-right cell */
+.sudoku-box .cell:nth-child(9) {
+  border-bottom-right-radius: 15px;
+}
+
+.cell {
+  width: 60px;
+  height: 60px;
+  border: 1px solid #b7e4c796;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  background: #fff;
+}
+
+.cell.prefilled {
+  background: #b7e4c73b;
+  font-weight: bold;
+  color: var(--warmgray)
+}
+
+.cell.highlight {
+  background-color: #b7e4c788;
+}
+
+.cell.selected {
+  background-color: var(--cobaltgreen); /* slightly stronger yellow */
+  z-index: 1;
+}
+
+.cell:hover:not(.selected) {
+  background-color: #f9f9f9;
+}
+
+.cell.incorrect {
+  color: red;
+}
+
+.candidates {
+  font-size: 10px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  line-height: 1.2;
+  padding: 4px;
+  box-sizing: border-box;
+}
+
+.controls {
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mode-toggle button {
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.numpad button {
+  padding: 10px;
+  font-size: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  cursor: pointer;
+  border: 2px solid var(--palecobaltgreen);
+  background-color: var(--white);
+}
+
+.numpad button:hover {
+  color: var(--warmgray);
+  background-color: var(--palecobaltgreen);
+  border: 2px solid var(--palecobaltgreen);
+}
+
+.mode-toggle {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top:40px;
+  margin-left: 5px;
+}
+
+.mode-toggle .active {
+  background-color: black;
+  color: white;
+}
+
+.numpad {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 5px;
+  padding: 15px;
+}
+
+/* buttons */
+.timer {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: var(--warmgray);
+  margin-right: 10px;
+  display: flex;
+  align-items: right;
+}
+
+#restart {
+  font-size: 1.5 em;
+  padding: 4px 10px;
+  background-color: var(--palecobaltgreen);
+  color: var(--warmgray);
+  border: none;
+  transition: background 0.2s;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+#restart:hover {
+  background-color: var(--warmgray);
+  color: var(--palecobaltgreen);
+}
+/*
+.undoBtn{
+  font-size: 1.5 em;
+  padding: 4px 10px;
+  background-color: var(--palecobaltgreen);
+  color: var(--warmgray);
+  border: none;
+  transition: background 0.2s;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.undoBtn:hover {
+  background-color: var(--warmgray);
+  color: var(--palecobaltgreen);
+}
+  */
+
+.eraseBtn {
+  font-size: 1.5 em;
+  padding: 4px 10px;
+  background-color: var(--palecobaltgreen)!important;
+  color: var(--warmgray)!important;
+  border: none;
+  transition: background 0.2s;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.eraseBtn:hover {
+  background-color: var(--warmgray)!important;
+  color: var(--white)!important;
+  border: 2px solid var(--warmgray)!important;
+}
+
+/* paused button and overlay */
+#pause {
+  font-size: 1.5 em;
+  padding: 4px 10px;
+  background: var(--warmgray);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+  display:flex;
+  color: var(--palecobaltgreen);
+}
+
+#pause:hover {
+  background: var(--palecobaltgreen);
+  color: var(--warmgray);
+}
+
+#pause-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+
+  width: 100%;
+  height: 100%;
+  background-color: black; /* fully opaque */
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.pause-message {
+  color: white;
+  font-size: 2em;
+  font-weight: bold;
+}
+
+/* responsiveness */
+
+/*this one doesnt work
+.sudoku-grid {
+  width: 100%;
+  max-width: 540px;
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  gap: 2px;
+}
+  */
+.numpad {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.5rem;
+}
+
+@media (max-width: 576px) {
+  .game-info {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+
+  .numpad {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .mode-toggle .btn {
+    width: 100%;
+  }
+}
+
+#archive-grid .archive-day {
+  min-height: 70px;
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95em;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+#archive-grid .archive-day:hover {
+  background: #e2f0e9;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+}
+#archive-grid .archive-day .date-label {
+  font-size: 0.85em;
+  color: #888;
+}
+#archive-grid .archive-day .btn-group {
+  margin-top: 4px;
+}
+
+.archive-day {
+  aspect-ratio: 1 / 1;
+  min-width: 0;
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
